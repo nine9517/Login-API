@@ -25,8 +25,11 @@ module.exports = {
 		console.log(req.body);
 		const { password, email } = req.body;
 		const foundUser = await User.findOne({ email });
+
 		if(foundUser){
+			console.log("if foundUser");
 			if(foundUser.isValidPassword(password)){
+				console.log("if isValidPassword");
 				foundUser.history_login.push(new Date());
 				foundUser.save(function (err){
 					if (err){
@@ -36,10 +39,12 @@ module.exports = {
 				});
 				
 			}else{
+				console.log("else isValidPassword");
 				return res.status(403).json({status:1, message:"Password is incorrect!" });
 			}
 			
 		}else{
+			console.log("else foundUser");
 			return res.status(403).json({status:1, message:"E-Mail isn't found!" });
 		}
 	},
