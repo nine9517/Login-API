@@ -5,8 +5,12 @@ const http = require('http').Server(app);
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 55555;
+const dbConfig = require('../configuration/mongoDB');
+const mongoose = require('mongoose');
 
-require('./helpers/mongohelper');
+mongoose.connect('mongodb://'+dbConfig.DB_USERNAME+':'+dbConfig.DB_PASSWORD+'@'+dbConfig.DB_HOST+':'+dbConfig.DB_PORT+'/'+dbConfig.DB_NAME, { useNewUrlParser: true });
+
+// require('./helpers/mongohelper');
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
