@@ -22,21 +22,25 @@ module.exports = {
 		});
 	},
 	login: async (req, res) => {
+		console.log(req.body);
 		const { password, email } = req.body;
 		const foundUser = await User.findOne({ email });
-		if(!foundUser){
-			return res.status(403).json({status:1, message:"E-Mail isn't found!" });
-		}else if(foundUser.isValidPassword(password)){
-			foundUser.history_login.push(new Date());
-			foundUser.save(function (err){
-				if (err){
-					res.status(403).json({status:1, message:err });
-				}
-				res.status(200).json({status:0, message:"Login successfully.",id:foundUser._id });
-			});
+		if(foundUser){
+			if(foundUser.isValidPassword(password)){
+				foundUser.history_login.push(new Date());
+				foundUser.save(function (err){
+					if (err){
+						res.status(403).json({status:1, message:err });
+					}
+					res.status(200).json({status:0, message:"Login successfully.",id:foundUser._id });
+				});
+				
+			}else{
+				return res.status(403).json({status:1, message:"Password is incorrect!" });
+			}
 			
 		}else{
-			return res.status(403).json({status:1, message:"Password is incorrect!" });
+			return res.status(403).json({status:1, message:"E-Mail isn't found!" });
 		}
 	},
 	loginWithFacebook: async (req, res) => {
