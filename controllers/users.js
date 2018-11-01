@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
 	register: async (req, res) => {
-		const { password, email } = req.value.body;
+		const { password, email } = req.body;
 		const foundUser = await User.findOne({ email });
 		if(foundUser){
 			return res.status(403).json({status:1, message:'E-Mail is already in use.' });
@@ -22,7 +22,7 @@ module.exports = {
 		});
 	},
 	login: async (req, res) => {
-		const { password, email } = req.value.body;
+		const { password, email } = req.body;
 		const foundUser = await User.findOne({ email });
 		if(!foundUser){
 			return res.status(403).json({status:1, message:"E-Mail isn't found!" });
@@ -40,7 +40,7 @@ module.exports = {
 		}
 	},
 	loginWithFacebook: async (req, res) => {
-		const { picture, email } = req.value.body;
+		const { picture, email } = req.body;
 		const foundUser = await User.findOne({ email });
 		if(!foundUser){
 			const newUser = new User({
