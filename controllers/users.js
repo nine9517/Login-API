@@ -25,7 +25,7 @@ module.exports = {
 		console.log(req.body);
 		const { password, email } = req.body;
 		const foundUser = await User.findOne({ email });
-
+		console.log("await findOne");
 		if(foundUser){
 			console.log("if foundUser");
 			if(foundUser.isValidPassword(password)){
