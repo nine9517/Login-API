@@ -10,8 +10,6 @@ const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://'+dbConfig.DB_USERNAME+':'+dbConfig.DB_PASSWORD+'@'+dbConfig.DB_HOST+':'+dbConfig.DB_PORT+'/'+dbConfig.DB_NAME, { useNewUrlParser: true });
 
-// require('./helpers/mongohelper');
-
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -6,7 +6,7 @@ module.exports = {
 		const { password, email } = req.body;
 		const foundUser = await User.findOne({ email });
 		if(foundUser){
-			return res.status(403).json({status:1, message:'E-Mail is already in use.' });
+			return res.status(200).json({status:1, message:'E-Mail is already in use.' });
 		}
 		const salt = await bcrypt.genSalt(10);
 		const passwordHash = await bcrypt.hash(password,salt);
@@ -16,7 +16,7 @@ module.exports = {
 		});
 		await newUser.save(function (err) {
 			if (err){
-				res.status(403).json({status:1, message:err });
+				res.status(200).json({status:1, message:err });
 			}
 			res.status(200).json({status:0, message:"Register successfully." });
 		});
@@ -33,19 +33,19 @@ module.exports = {
 				foundUser.history_login.push(new Date());
 				foundUser.save(function (err){
 					if (err){
-						res.status(403).json({status:1, message:err });
+						res.status(200).json({status:1, message:err });
 					}
 					res.status(200).json({status:0, message:"Login successfully.",id:foundUser._id });
 				});
 				
 			}else{
 				console.log("else isValidPassword");
-				return res.status(403).json({status:1, message:"Password is incorrect!" });
+				return res.status(200).json({status:1, message:"Password is incorrect!" });
 			}
 			
 		}else{
 			console.log("else foundUser");
-			return res.status(403).json({status:1, message:"E-Mail isn't found!" });
+			return res.status(200).json({status:1, message:"E-Mail isn't found!" });
 		}
 	},
 	loginWithFacebook: async (req, res) => {
@@ -58,12 +58,12 @@ module.exports = {
 			});
 			await newUser.save(function (err, UserSave) {
 				if (err){
-					res.status(403).json({status:1, message:err });
+					res.status(200).json({status:1, message:err });
 				}
 				UserSave.history_login.push(new Date());
 				UserSave.save(function (err,user){
 					if (err){
-						res.status(403).json({status:1, message:err });
+						res.status(200).json({status:1, message:err });
 					}
 					res.status(200).json({status:0, message:"Login successfully.",id:user._id });
 				});
@@ -74,7 +74,7 @@ module.exports = {
 			foundUser.picture = picture;
 			foundUser.save(function (err){
 				if (err){
-					res.status(403).json({status:1, message:err });
+					res.status(200).json({status:1, message:err });
 				}
 				res.status(200).json({status:0, message:"Login successfully.",id:foundUser._id });
 			});
@@ -84,7 +84,7 @@ module.exports = {
 		const id = req.params.id;
 		const foundUser = await User.findById(id,{ email:1,picture:1,history_login:1,createdAt:1 });
 		if(!foundUser){
-			return res.status(403).json({status:1, message:"User isn't found!" });
+			return res.status(200).json({status:1, message:"User isn't found!" });
 		}else{
 			return res.status(200).json({status:0, message:"Successfully.",data:foundUser });
 		}
