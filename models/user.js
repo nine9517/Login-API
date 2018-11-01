@@ -12,6 +12,7 @@ const userSchema = new Schema({
 	password : String,
 	picture : {
 		type: String,
+		default: 'http://bcnnow.decodeproject.eu/img/users/no-image.jpg'
 	},
 	history_login:[Date]
 }, { 
